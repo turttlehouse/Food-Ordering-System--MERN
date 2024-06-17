@@ -21,7 +21,7 @@ const orderSlice = createSlice({
         },
         deleteOrderById(state,action)
         {
-            const index = state.orders.findIndex((order)=>order._id === action.payload.orderId)
+            const index = state.orders?.findIndex((order)=>order._id === action.payload.orderId)
             state.orders.splice(index,1);  
 
         },
@@ -29,7 +29,7 @@ const orderSlice = createSlice({
         updateOrderById(state,action)
         {
            
-            const index = state.orders.findIndex(order=>order._id === action.payload.orderId)
+            const index = state.orders?.findIndex(order=>order?._id === action.payload.orderId)
             if(index !== -1)
             {
                 state.orders[index] = action.payload.data
@@ -37,7 +37,7 @@ const orderSlice = createSlice({
         },
         updatePaymentStatusById(state,action)
         {
-            const index = state.orders.findIndex(order=>order?._id === action.payload.orderId)
+            const index = state.orders?.findIndex(order=>order?._id === action.payload.orderId)
 
             if(index !== -1)
             {

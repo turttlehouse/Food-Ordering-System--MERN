@@ -1,7 +1,8 @@
 import React, { useEffect,useState } from 'react'
-import { fetchOrder } from '../../store/checkoutSlice';
+import { fetchOrder, updateOrderStausInStore } from '../../store/checkoutSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { socket } from '../../App';
 
 const MyOrders = () => {
 
@@ -39,6 +40,15 @@ const MyOrders = () => {
     )
 
     const navigate = useNavigate();
+
+    //ws
+    useEffect(()=>{
+        socket.on("statusUpdated",(data)=>{
+            // console.log(data)
+            dispatch(updateOrderStausInStore(data))
+        })
+    },[socket])  
+    
 
 
 

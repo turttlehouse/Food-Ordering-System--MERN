@@ -23,6 +23,21 @@ import ResetPassword from './pages/auth/resetPassword/ResetPassword'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+//ws
+import {io} from "socket.io-client"
+
+export const socket = io("http://localhost:5000",{
+   auth :{
+
+      token :  localStorage.getItem("token")
+
+   } 
+})
+
+
+
+
+
 function App() {
 
 

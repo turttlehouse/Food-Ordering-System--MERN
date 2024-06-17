@@ -18,7 +18,7 @@ const SingleOrder = () => {
 
     const fetchOrders =async()=>{
         const response = await APIAuthenticated.get("admin/orders")
-        console.log(response.data.data);
+        // console.log(response.data.data);
 
         if(response.status === 200)
         {
@@ -58,11 +58,18 @@ const SingleOrder = () => {
 
     const handleOrderStatus = (e)=>{
 
-        socket.emit("hello",{name:"jimee"})
         setOrderStatus(e.target.value);
-
+        
+        //ws
+        socket.emit("updateOrderStatus",{
+            status : e.target.value,
+            orderId : id,
+            userId : filteredOrder.user._id
+        })
+        
         dispatch(updateOrderStatus(id,e.target.value))
     }
+   
 
 
     const [paymentStatus,setPaymentStatus] = useState(filteredOrder?.paymentDetails.status)

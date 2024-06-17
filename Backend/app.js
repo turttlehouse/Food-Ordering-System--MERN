@@ -57,17 +57,56 @@ const server = app.listen(port,(req,res)=>{
 
 const { Server } = require("socket.io");
 
+
 const io = new Server(server,{
     cors : "http://localhost:3000"
 })
 
-io.on("connection",(socket)=>{
 
-    socket.on("hello",(data)=>{
-        console.log(data.name);
+const User = require("./model/userModel")
+const jwt = require("jsonwebtoken");
+const { promisify} = require("util")
+
+io.on("connection",async(socket)=>{
+
+    const { token } = socket.handshake.auth
+
+    if(token)
+    {
+        
+        const decoded = await promisify(jwt.verify)(token,process.env.SECRET_KEY)
+        const doesUserExist = await User.findOne({_id: decoded.id})
+
+        if(doesUserExist)
+        {
+            addToOnlineUsers(socket.id,doesUserExist.id,doesUserExist.role)
+        }
+    }
+
+    socket.on("updateOrderStatus",({status,orderId,userId})=>{
+        // console.log(status,orderId,userId);
+
+        const findUser = onlineUsers.find((user)=>user.userId == userId)
+        
+       
+        io.to(findUser.socketId).emit("statusUpdated",{status,orderId})
     })
-    
-    console.log("someone is trying to connect")
+
 })
+
+
+
+let onlineUsers = []
+
+const addToOnlineUsers = (socketId,userId,role)=>{
+
+    onlineUsers = onlineUsers.filter((user)=>user.userId !== userId)
+    onlineUsers.push({socketId,userId,role})
+}
+
+
+
+
+
 
 
