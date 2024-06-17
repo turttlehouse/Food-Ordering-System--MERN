@@ -50,7 +50,19 @@ app.use(express.static("./uploads"))
 
 const port = process.env.PORT
 
-app.listen(port,(req,res)=>{
-    console.log("your project has started at port 5000")
+//Web Socket Implementation
+const server = app.listen(port,(req,res)=>{
+    console.log(`your project has started at ${port}`);
 })
+
+const { Server } = require("socket.io");
+
+const io = new Server(server,{
+    cors : "http://localhost:3000"
+})
+
+io.on("connection",(socket)=>{
+    console.log("someone is trying to connect")
+})
+
 

@@ -1,3 +1,4 @@
+import { socket } from 'App';
 import { APIAuthenticated } from 'http';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -57,9 +58,8 @@ const SingleOrder = () => {
 
     const handleOrderStatus = (e)=>{
 
-        setOrderStatus(e.target.value);
 
-        console.log(e.target.value)
+        setOrderStatus(e.target.value);
 
         dispatch(updateOrderStatus(id,e.target.value))
     }
