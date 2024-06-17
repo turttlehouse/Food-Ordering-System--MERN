@@ -58,7 +58,7 @@ const SingleOrder = () => {
 
     const handleOrderStatus = (e)=>{
 
-
+        socket.emit("hello",{name:"jimee"})
         setOrderStatus(e.target.value);
 
         dispatch(updateOrderStatus(id,e.target.value))

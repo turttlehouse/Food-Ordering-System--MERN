@@ -62,6 +62,11 @@ const io = new Server(server,{
 })
 
 io.on("connection",(socket)=>{
+
+    socket.on("hello",(data)=>{
+        console.log(data.name);
+    })
+    
     console.log("someone is trying to connect")
 })
 
